@@ -5,6 +5,9 @@ const concat = require('gulp-concat');
 
 const uglify = require('gulp-uglify');
 const connect   = require('gulp-connect');
+const header = require('gulp-header');
+
+var pkg = require('../package.json');
 
 const buildDir = process.env.NODE_ENV === 'production'?'../dist':'../test/dist';
 
@@ -21,11 +24,22 @@ if(process.env.NODE_ENV !== 'production'){
 // 创建js代码压缩任务
 gulp.task('build:sdk', function(){
     gulp.src('../libs/*.js')
+        .pipe(header(headerTemplate('sdk'), {pkg: pkg, name: 'sdk'}))
         .pipe(concat('sdk.js'))
         .pipe(gulp.dest(buildDir))
         .pipe(connect.reload());
 });
 
+function headerTemplate(){
+    var banner = ['/**',
+  ' * ${pkg.name}:${name}',
+  ' * @version v${pkg.version}',
+  ' * @author ${pkg.author}',
+  ' * @license ${pkg.license}',
+  ' */',
+  ''].join('\n');
+  return banner;
+}
 
 function readTargetDir(){
     const baseDir = path.join(__dirname, '../libs');
@@ -35,6 +49,7 @@ function readTargetDir(){
 function createTargetSDKTask(folder){
     gulp.task(`build:${folder}`,function(){
         gulp.src(`../libs/${folder}/*.js`)
+            .pipe(header(headerTemplate(folder), {pkg: pkg, name: folder}))
             .pipe(concat(`${folder}.js`))
             .pipe(gulp.dest(buildDir))
             .pipe(connect.reload());
