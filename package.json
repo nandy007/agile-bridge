@@ -1,0 +1,19 @@
+{
+  "name": "agile-bridge",
+  "version": "0.1.0",
+  "description": "跨平台jssdk框架",
+  "main": "dist/sdk.js",
+  "scripts": {
+    "test": "gulp --gulpfile ./build/gulpfile.js",
+    "build": "cross-env  NODE_ENV=production gulp --gulpfile ./build/gulpfile.js"
+  },
+  "author": "nandy007",
+  "license": "MIT",
+  "devDependencies": {
+    "cross-env": "^5.2.0",
+    "gulp": "^3.9.1",
+    "gulp-concat": "^2.6.1",
+    "gulp-connect": "^5.7.0",
+    "gulp-uglify": "^3.0.1"
+  }
+}
