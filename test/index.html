@@ -16,16 +16,16 @@
     <script src="./env.js" type="text/javascript"></script>
     <script>
         agileBridge.plusready(function(){
-            // agileBridge.selectPicture({
+            // agileBridge.photo.camera({
             //     success: function(){
             //         alert(arguments);
             //     }
             // });
-            // agileBridge.native('photo.album', {
-            //     success: function(){
-            //         alert(1);
-            //     }
-            // });
+            agileBridge.native('photo.album', {
+                success: function(){
+                    alert(1);
+                }
+            });
         }, function(){
             alert(2);
         })

@@ -91,13 +91,21 @@ var agileBridge = (function(win, fatory){
                 if(!_options.isDebug) return;
                 console.error.apply(console, arguments);
             }
+        },
+        getTrueObj: function(obj, arr){
+            arr = arr || [];
+            if(arr.length===0) return obj;
+            var cur = arr.shift();
+            obj = obj[cur];
+            if(!obj) return null;
+            return util.getTrueObj(obj, arr);
         }
     };
 
     var apiLists = [
-        'nativeObj', 'native', 'isInit',
+        'nativeObj', 'isInit',
         
-        'plusready', 'selectPicture', 'selectFile', 'selectDateTime'
+        'plusready', 'photo'
     ];
 
     var readyCallbacks = [];
@@ -119,6 +127,7 @@ var agileBridge = (function(win, fatory){
         },
         nativeObj: null,
         native: function(){
+            
             var args = Array.prototype.slice.call(arguments);
             var funcName = args.shift();
             if(typeof funcName!=='string'){
@@ -129,12 +138,17 @@ var agileBridge = (function(win, fatory){
                 util.console.error('原生对象未设置，请在config参数中每个resources设置自己native对象');
                 return;
             }
-            var func = agileBridge.nativeObj[funcName];
+            var func = util.getTrueObj(agileBridge.nativeObj, funcName.split('.'));
             if(!func){
                 util.console.error('原生对象未有函数：'+funcName);
                 return;
             }
-            func.apply(agileBridge.nativeObj, args);
+            if(typeof func==='function'){
+                return func.apply(agileBridge.nativeObj, args);
+            }else{
+                return func;
+            }
+            
         }
     };
 
