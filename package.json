@@ -1,5 +1,5 @@
 {
-  "name": "agile-bridge",
+  "name": "agile-jssdk",
   "version": "0.1.0",
   "description": "跨平台jssdk框架",
   "main": "dist/sdk.js",
